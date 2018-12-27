@@ -8,13 +8,13 @@ import jwt = require('jsonwebtoken')
 
 export class UserResolvers {
     constructor(private readonly userService: UserService) { }
-    @Query()
+    @Query('getInfoUser')
     async getInfoUser(@Args('userId') userId: string): Promise<User> {
         return this.userService.getInfoUserById(userId)
     }
 
-    @Mutation()
-    async Login(@Args('loginInput') loginInput: User) {
+    @Mutation('login')
+    async login(@Args('loginInput') loginInput: User) {
         const user: User = await this.userService.getInfoUserByUserName(loginInput.userName)
         if (!user) {
             throw new Error('NOT_FOUND_USER')
@@ -24,8 +24,8 @@ export class UserResolvers {
         const token = jwt.sign({ userId: user._id }, 'GO', { expiresIn: 10000 })
         return token
     }
-    @Mutation()
-    async Register(@Args('registerInput') registerInput: User): Promise<User> {
+    @Mutation('register')
+    async register(@Args('registerInput') registerInput: User): Promise<User> {
         console.log('registerInput', registerInput)
         const newUser = await this.userService.register(registerInput)
         return newUser

@@ -25,6 +25,6 @@ export class UserService {
         newUser.password = user.password
         newUser.userName = user.userName
         newUser.roles = user.roles
-        return await this.userRepository.save(newUser)
+        return await this.userRepository.save(newUser) 
     }
 }

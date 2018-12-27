@@ -20,8 +20,8 @@ type User{
 
 
 type Mutation {
-    Register(registerInput:RegisterInput!):User,
-    Login(loginInput:LoginInput) : String
+    register(registerInput:RegisterInput!):User,
+    login(loginInput:LoginInput) : String
 }
 type Query {
     getInfoUser(userId:String) : User

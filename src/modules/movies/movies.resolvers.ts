@@ -3,13 +3,13 @@ import { MoviesService } from './movies.service';
 import { CreateMovieDTO } from './dto/create-movie.dto';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../../guard/roles.guard';
-import { Movie } from './movies.enity';
+import { Movie } from './movies.entity';
 import { PubSub } from 'graphql-subscriptions';
 
 
 @Resolver('Movie')
 export class MoviesResolvers {
-    constructor(private readonly MoviesService: MoviesService) { }
+    constructor(private  MoviesService: MoviesService) { }
     private pubSub = new PubSub();
     @Query()
     async getMovies() {

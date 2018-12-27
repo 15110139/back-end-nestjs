@@ -1,0 +1,15 @@
+input CreateRolesInput{
+    roles:String!
+    functionRoles:[String]!
+}
+type Roles{
+    roles:String
+    functionRoles:[String]
+}
+type Mutation {
+    createRoles(createRolesInput:CreateRolesInput!):Roles
+}
+
+type Query{
+    getListFunctionRolesByRoles(roles:String):[String]
+}
