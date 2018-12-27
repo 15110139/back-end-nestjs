@@ -1,0 +1,29 @@
+enum Episode {
+  NEWHOPE
+  EMPIRE
+  JEDI
+}
+
+input RegisterInput {
+    userName:String
+    password:String
+    roles:Episode
+}
+input LoginInput{
+    userName:String
+    password:String
+}
+type User{
+    userName:String
+    roles:String
+}
+
+
+type Mutation {
+    Register(registerInput:RegisterInput!):User,
+    Login(loginInput:LoginInput) : String
+}
+type Query {
+    getInfoUser(userId:String) : User
+   
+}
