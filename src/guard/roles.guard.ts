@@ -15,7 +15,7 @@ export class RolesGuard implements CanActivate {
         console.log(ctx[2].headers['access-token'])
         const token = ctx[2].headers['access-token']
         const decoded = jwt.verify(token, 'GO');
-        console.log(decoded.userId)
+        // console.log(decoded.userId)
         if (!decoded) {
             throw new Error('INVALID_TOKEN')
         }
@@ -25,7 +25,7 @@ export class RolesGuard implements CanActivate {
             throw new Error('NOT_FOUND_USER')
         }
         const ctx2 = GqlExecutionContext.create(context);
-        console.log("222", ctx2.getInfo().fieldName)
+        // console.log("222", ctx2.getInfo().fieldName)
         return true;
     }
 }
