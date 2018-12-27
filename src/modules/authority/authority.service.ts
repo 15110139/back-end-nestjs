@@ -1,17 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Authority } from "./authority.entity";
-import { Repository } from "typeorm";
+import { getMongoRepository } from "typeorm";
+import { InjectEntityManager, InjectRepository } from "@nestjs/typeorm";
 const ObjectId = require('mongodb').ObjectId;
 
 
 @Injectable()
 export class AuthorityService {
+
     constructor(
         @InjectRepository(Authority)
-        private authorityRepository: Repository<Authority>
-    ) { }
+        private authorityRepository = getMongoRepository(Authority)
+    ) {
 
+    }
 
     async createRoles(authority: Authority) {
         const newAuthority = new Authority()
@@ -20,7 +22,7 @@ export class AuthorityService {
         return await this.authorityRepository.save(newAuthority)
     }
     async addFunctionRoles(authorityId: string, functionRoles: string[]) {
-        return this.authorityRepository.update({ _id: ObjectId(authorityId) }, { $push: { functionRoles: { $each: functionRoles } } })
+        return this.authorityRepository.findOneAndUpdate({ _id: ObjectId(authorityId) }, { $push: { functionRoles: { $each: functionRoles } } })
     }
 
     async getListFunctionRolesByRoles(roles: string) {
