@@ -1,3 +1,12 @@
+type Mutation {
+    register(registerInput:RegisterInput!):User,
+    login(loginInput:LoginInput) : String
+}
+type Query {
+    getListUser:[User]
+    LayTien:String
+    getInfoUser(userId:String!) : User
+}
 enum Episode {
   NEWHOPE
   EMPIRE
@@ -16,14 +25,4 @@ input LoginInput{
 type User{
     userName:String
     roles:String
-}
-
-
-type Mutation {
-    register(registerInput:RegisterInput!):User,
-    login(loginInput:LoginInput) : String
-}
-type Query {
-    getInfoUser(userId:String) : User
-   
 }

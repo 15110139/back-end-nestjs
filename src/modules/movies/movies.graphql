@@ -1,6 +1,6 @@
 type Query {
   getMovies: [Movie]
-  movie(id: ID!): Movie
+  movie(movieId: String!): Movie
 }
 
 type Mutation {
@@ -18,7 +18,7 @@ type Movie {
 }
 
 input CreateMovieInput {
-  title: String
-  director: String
-  description:String
+  title: String!
+  director: String!
+  description:String!
 }

@@ -26,7 +26,9 @@ export class AuthorityService {
     }
 
     async getListFunctionRolesByRoles(roles: string) {
+        // console.log('roles', roles)
         const arrayRoles = await this.authorityRepository.findOne({ roles: roles })
-        return arrayRoles.functionRoles
+        // console.log('arrayRoles', arrayRoles)
+        return arrayRoles.functionRoles ? arrayRoles.functionRoles : []
     }
 }

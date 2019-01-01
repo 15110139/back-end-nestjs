@@ -1,16 +1,30 @@
-import { Resolver, Args, Mutation } from "@nestjs/graphql";
-import { Query } from "@nestjs/common";
-import { async } from "rxjs/internal/scheduler/async";
+import { Resolver, Args, Mutation, Query } from "@nestjs/graphql";
 import { UserService } from "./user.service";
 import { User } from "./user.enity";
+
 import jwt = require('jsonwebtoken')
 @Resolver('User')
-
 export class UserResolvers {
     constructor(private readonly userService: UserService) { }
     @Query('getInfoUser')
+
     async getInfoUser(@Args('userId') userId: string): Promise<User> {
-        return this.userService.getInfoUserById(userId)
+        console.log('user', userId)
+        // this.userService.userLoader.clear(userId)
+        return await this.userService.userLoader.load(userId)
+        // return await this.userService.getInfoUserById(userId)
+    }
+
+    @Query()
+
+    async getListUser() {
+        console.log('------------------')
+    }
+
+    @Query()
+
+    LayTien() {
+        return 'tien'
     }
 
     @Mutation('login')
