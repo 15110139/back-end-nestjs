@@ -1,10 +1,8 @@
 type Mutation {
-    register(registerInput:RegisterInput!):User,
-    login(loginInput:LoginInput) : String
+    register(registerInput:RegisterInput!):User!,
+    login(loginInput:LoginInput!) : String!
 }
 type Query {
-    getListUser:[User]
-    LayTien:String
     getInfoUser(userId:String!) : User
 }
 enum Episode {
@@ -14,13 +12,13 @@ enum Episode {
 }
 
 input RegisterInput {
-    userName:String
-    password:String
-    roles:Episode
+    userName:String!
+    password:String!
+    roles:Episode!
 }
 input LoginInput{
-    userName:String
-    password:String
+    userName:String!
+    password:String!
 }
 type User{
     userName:String

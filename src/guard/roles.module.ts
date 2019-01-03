@@ -7,7 +7,7 @@ import { AuthorityService } from "../modules/authority/authority.service";
 import { Authority } from "../modules/authority/authority.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([User,Authority])],
+    imports: [TypeOrmModule.forFeature([User, Authority])],
     providers: [UserService, RolesGuard, AuthorityService],
     exports: [UserService, RolesGuard, AuthorityService]
 })

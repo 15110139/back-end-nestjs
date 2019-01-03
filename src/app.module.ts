@@ -9,12 +9,11 @@ import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/user.enity';
 import { AuthorityModule } from './modules/authority/authority.module';
 import { Authority } from './modules/authority/authority.entity';
-import { ConfigModule } from './config.module';
-// import { ConfigModule } from 'config.module';
+// import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
-    ConfigModule,
+    // ConfigModule,
     AuthorityModule,
     UserModule,
     MoviesModule,
@@ -25,7 +24,7 @@ import { ConfigModule } from './config.module';
       database: "test",
       useNewUrlParser: true,
       entities: [
-        Movie, User, Authority
+        Movie, User, Authority  
       ],
       synchronize: true
     }),
@@ -33,18 +32,19 @@ import { ConfigModule } from './config.module';
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
       context: ({ req }) => {
+        // console.log(req)
         return req
       },
       playground: {
         settings: {
-          "editor.fontFamily": "'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace",
           "editor.cursorShape": "line",
           "editor.theme": "dark",
         }
       },
       formatError: error => {
+
         // console.log(error)
-        return error.message
+        return error
       }
     }),
 

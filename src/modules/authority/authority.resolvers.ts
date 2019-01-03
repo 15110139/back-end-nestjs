@@ -1,9 +1,11 @@
 import { Resolver, Mutation, Args, Query } from "@nestjs/graphql";
 import { AuthorityService } from "./authority.service";
 import { Authority } from "./authority.entity";
+import { LoggingInterceptor } from "interceptors/logging.interceptor";
+import { UseInterceptors } from "@nestjs/common";
 
 @Resolver('Authority')
-
+@UseInterceptors(LoggingInterceptor)
 export class AuthorityResolvers {
     constructor(
         private authorityService: AuthorityService
@@ -17,9 +19,12 @@ export class AuthorityResolvers {
 
     @Mutation('createRoles')
     async createRoles(@Args('createRolesInput') createRolesInput: Authority): Promise<Authority> {
-        console.log('createRolesInput', createRolesInput)
-        console.log('hee liu')
-        return await this.authorityService.createRoles(createRolesInput)
+        try {
+            return await this.authorityService.createRoles(createRolesInput)
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
     }
 
 }

@@ -15,7 +15,6 @@ export class UserService {
     ) { }
 
     private batchUser = async (userIds: string[]): Promise<User[]> => {
-        console.log('--------------', userIds)
         const objUserIds: string[] = userIds.map(userId => ObjectId(userId))
         const users = await this.userRepository.find({ _id: { $in: objUserIds } })
         const userMap: { [key: string]: User } = {}
@@ -25,7 +24,6 @@ export class UserService {
         return userIds.map(id => userMap[id])
     }
     async getInfoUserById(userId: string): Promise<User> {
-        console.log('--------------', userId)
         return await this.userRepository.findOne({ _id: ObjectId(userId) })
     }
     async getInfoUserByUserName(userName: string): Promise<User> {

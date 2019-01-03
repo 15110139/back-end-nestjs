@@ -4,7 +4,7 @@ type Query {
 }
 
 type Mutation {
-  createMovie(createMovieInput: CreateMovieInput): Movie
+  createMovie(createMovieInput: CreateMovieInput!): Movie!
 }
 
 type Subscription {

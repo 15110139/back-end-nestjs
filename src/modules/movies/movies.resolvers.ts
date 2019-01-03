@@ -15,29 +15,37 @@ import { validationArgs } from '../../validation/validationArgs.pipe';
 export class MoviesResolvers {
     constructor(private readonly moviesService: MoviesService) { }
     private pubSub = new PubSub();
+    
+    @UseGuards(RolesGuard)
     @Query()
-
     async getMovies() {
-        console.log('---------------------')
-        return await this.moviesService.getMovies()
+        try {
+            return await this.moviesService.getMovies()
+        } catch (error) {
+            console.error(error)
+            throw new Error(error)
+        }
     }
-
+    @UseGuards(RolesGuard)
     @Query('movie')
-
     async movie(
         @Args('movieId', new validationArgs())
         movieId,
     ): Promise<Movie> {
-        return await this.moviesService.getMovieById(movieId)
+        try {
+            return await this.moviesService.getMovieById(movieId)
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
     }
-
-    @Mutation('createMovie')
     @UseGuards(RolesGuard)
+    @Mutation('createMovie')
     // @UseInterceptors(ErrorsInterceptor)
     async createMovie(@Args(new validationObj()) args: CreateMovieDTO): Promise<Movie> {
         try {
             const newMove = Object['values'](args)[0]
-            console.log(newMove)
+            // console.log(newMove)
             const createdMovie = await this.moviesService.createMovie(newMove);
             this.pubSub.publish('createdMovie', { createdMovie })
             return createdMovie;

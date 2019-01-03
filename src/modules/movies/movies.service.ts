@@ -29,7 +29,7 @@ export class MoviesService {
         newMove.title = createMovieDTO.title
         newMove.director = createMovieDTO.director
         newMove.description = createMovieDTO.description
-        console.log('newMove', newMove)
+        // console.log('newMove', newMove)
         return await this.movieRepository.save(newMove)
     }
 }
