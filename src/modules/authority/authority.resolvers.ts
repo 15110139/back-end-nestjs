@@ -22,7 +22,6 @@ export class AuthorityResolvers {
         try {
             return await this.authorityService.createRoles(createRolesInput)
         } catch (error) {
-            console.log(error)
             throw new Error(error)
         }
     }

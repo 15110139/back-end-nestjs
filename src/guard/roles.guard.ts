@@ -1,10 +1,14 @@
 
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UseInterceptors } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { UserService } from '../modules/user/user.service';
 import { AuthorityService } from '../modules/authority/authority.service';
+import { LoggingInterceptor } from 'interceptors/logging.interceptor';
+import Logger from '../unitl/Logger';
 // import { ConfigService } from 'config/config.service';
 const jwt = require('jsonwebtoken')
+const logger = new Logger('log')
+
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -12,11 +16,12 @@ export class RolesGuard implements CanActivate {
     async canActivate(
         context: ExecutionContext,
     ): Promise<boolean> {
+        const env = process.env.NODE_ENV || 'production'
+        const ctxGgl = GqlExecutionContext.create(context);
+        const token = ctxGgl.getContext().headers['access-token'] ? ctxGgl.getContext().headers['access-token'] : null
         try {
-            const ctxGgl = GqlExecutionContext.create(context);
-            console.log(ctxGgl.getContext().reqId)
+            // console.log(ctxGgl.getContext().reqId)
             // console.log(ctxGgl.getContext().headers['access-token'])
-            const token = ctxGgl.getContext().headers['access-token'] ? ctxGgl.getContext().headers['access-token'] : null
             if (!token) {
                 throw ('Token null')
             }
@@ -41,7 +46,11 @@ export class RolesGuard implements CanActivate {
             }
             return true;
         } catch (error) {
-            console.error(error)
+            if (env == 'development') {
+                logger.writeLog('error').error(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${ctxGgl.getContext().reqId} ${token} ${JSON.stringify(ctxGgl.getArgs())} ${error} `);
+            } else {
+                console.log(error)
+            }
             throw new Error(error)
         }
     }

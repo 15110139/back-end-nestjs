@@ -16,7 +16,6 @@ export class UserResolvers {
         try {
             return await this.userService.userLoader.load(userId)
         } catch (error) {
-            console.error(error)
             throw new Error(error)
         }
     }
@@ -34,7 +33,6 @@ export class UserResolvers {
             return token
 
         } catch (error) {
-            console.error(error)
             throw new Error(error)
         }
     }
@@ -44,7 +42,6 @@ export class UserResolvers {
             const newUser = await this.userService.register(registerInput)
             return newUser
         } catch (error) {
-            console.error(error)
             throw new Error(error)
         }
     }

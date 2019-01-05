@@ -12,7 +12,6 @@ import { Authority } from './modules/authority/authority.entity';
 const uuidv4 = require('uuid/v4');
 import Logger from './unitl/Logger'
 const logger = new Logger('logAll')
-// import { ConfigModule } from './config/config.module';
 
 @Module({
   imports: [
@@ -35,14 +34,10 @@ const logger = new Logger('logAll')
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
       context: ({ req }) => {
-        // console.log('ENV',process.env.NODE_ENV)
-        // console.log(req.headers)
         req.reqId = uuidv4()
-        // console.log(req.body)
         const token = req.headers['access-token'] ? req.headers['access-token'] : null
-        // logger.writeLog('info').info(`${req.headers.referer} ${req.reqId} ${token} ${JSON.stringify(req.body.variables)} ${JSON.stringify(req.body.query)}`)
         if (process.env.NODE_ENV === 'development') {
-          // console.log(req)
+          logger.writeLog('info').info(`${req.headers.referer} ${req.reqId} ${token} ${JSON.stringify(req.body.variables)} ${JSON.stringify(req.body.query)}`)
         }
         return req
       },
@@ -53,8 +48,6 @@ const logger = new Logger('logAll')
         }
       },
       formatError: error => {
-
-        // console.log(error)
         return error
       }
     }),
