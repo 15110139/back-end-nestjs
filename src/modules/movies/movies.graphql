@@ -1,10 +1,12 @@
 type Query {
-  getMovies: [Movie]
-  movie(movieId: String!): Movie
+  getMovies: [Movie]!
+  movie(movieId: String!): Movie!
+  getENV: String!
 }
 
 type Mutation {
   createMovie(createMovieInput: CreateMovieInput!): Movie!
+  changeENV(env:String!):String!
 }
 
 type Subscription {

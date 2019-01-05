@@ -4,15 +4,13 @@ import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
-export class validationObj implements PipeTransform<any> {
+export class validationInput implements PipeTransform<any> {
   async transform(value, { metatype }: ArgumentMetadata) {
     // console.log('value', value)
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
-    const newVal = Object['values'](value)[0]
-    // console.log('newValue',newVal)
-    const object = plainToClass(metatype, newVal);
+    const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
       // console.error('Validate input', errors)

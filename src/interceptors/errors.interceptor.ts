@@ -15,8 +15,10 @@ export class ErrorsInterceptor implements NestInterceptor {
     call$: Observable<any>,
   ): Observable<any> {
     return call$.pipe(
-      catchError(err =>
-        throwError(new HttpException(err.context, HttpStatus.BAD_GATEWAY)),
+      catchError(err => {
+        console.log('---------------',err)
+        return throwError(new HttpException(err.context, HttpStatus.BAD_GATEWAY))
+      }
       ),
     );
   }

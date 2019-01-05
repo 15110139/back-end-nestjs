@@ -14,6 +14,7 @@ export class RolesGuard implements CanActivate {
     ): Promise<boolean> {
         try {
             const ctxGgl = GqlExecutionContext.create(context);
+            console.log(ctxGgl.getContext().reqId)
             // console.log(ctxGgl.getContext().headers['access-token'])
             const token = ctxGgl.getContext().headers['access-token'] ? ctxGgl.getContext().headers['access-token'] : null
             if (!token) {

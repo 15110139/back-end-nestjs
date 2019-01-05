@@ -9,6 +9,9 @@ import { UserModule } from './modules/user/user.module';
 import { User } from './modules/user/user.enity';
 import { AuthorityModule } from './modules/authority/authority.module';
 import { Authority } from './modules/authority/authority.entity';
+const uuidv4 = require('uuid/v4');
+import Logger from './unitl/Logger'
+const logger = new Logger('logAll')
 // import { ConfigModule } from './config/config.module';
 
 @Module({
@@ -24,7 +27,7 @@ import { Authority } from './modules/authority/authority.entity';
       database: "test",
       useNewUrlParser: true,
       entities: [
-        Movie, User, Authority  
+        Movie, User, Authority
       ],
       synchronize: true
     }),
@@ -32,7 +35,15 @@ import { Authority } from './modules/authority/authority.entity';
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,
       context: ({ req }) => {
-        // console.log(req)
+        // console.log('ENV',process.env.NODE_ENV)
+        // console.log(req.headers)
+        req.reqId = uuidv4()
+        // console.log(req.body)
+        const token = req.headers['access-token'] ? req.headers['access-token'] : null
+        // logger.writeLog('info').info(`${req.headers.referer} ${req.reqId} ${token} ${JSON.stringify(req.body.variables)} ${JSON.stringify(req.body.query)}`)
+        if (process.env.NODE_ENV === 'development') {
+          // console.log(req)
+        }
         return req
       },
       playground: {
