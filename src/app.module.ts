@@ -19,37 +19,41 @@ const logger = new Logger('logAll')
     AuthorityModule,
     UserModule,
     MoviesModule,
-    TypeOrmModule.forRoot({
-      type: "mongodb",
-      host: "localhost",
-      port: 27017,
-      database: "test",
-      useNewUrlParser: true,
-      entities: [
-        Movie, User, Authority
-      ],
-      synchronize: true
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'mongodb',
+        host: process.env.NODE_ENV === 'production' ? process.env.DB_HOST_PRODUCTION : process.env.DB_HOST_DEVELOPMENT,
+        port: process.env.NODE_ENV === 'production' ? Number(process.env.DB_PORT_PRODUCTION) : Number(process.env.DB_PORT_DEVELOPMENT),
+        database: process.env.NODE_ENV === 'production' ? process.env.DB_NAME_PRODUCTION : process.env.DB_PORT_DEVELOPMENT,
+        useNewUrlParser: true,
+        entities: [
+          Movie, User, Authority
+        ],
+        synchronize: true
+      })
     }),
-    GraphQLModule.forRoot({
-      typePaths: ['./**/*.graphql'],
-      installSubscriptionHandlers: true,
-      context: ({ req }) => {
-        req.reqId = uuidv4()
-        const token = req.headers['access-token'] ? req.headers['access-token'] : null
-        if (process.env.NODE_ENV === 'development') {
-          logger.writeLog('info').info(`${req.headers.referer} ${req.reqId} ${token} ${JSON.stringify(req.body.variables)} ${JSON.stringify(req.body.query)}`)
+    GraphQLModule.forRootAsync({
+      useFactory: () => ({
+        typePaths: ['./**/*.graphql'],
+        installSubscriptionHandlers: true,
+        context: ({ req }) => {
+          req.reqId = uuidv4()
+          const token = req.headers['access-token'] ? req.headers['access-token'] : null
+          if (process.env.NODE_ENV === 'development') {
+            logger.writeLog('info').info(`${req.headers.referer} ${req.reqId} ${token} ${JSON.stringify(req.body.variables)} ${JSON.stringify(req.body.query)}`)
+          }
+          return req
+        },
+        playground: {
+          settings: {
+            "editor.cursorShape": "line",
+            "editor.theme": "dark",
+          }
+        },
+        formatError: error => {
+          return error
         }
-        return req
-      },
-      playground: {
-        settings: {
-          "editor.cursorShape": "line",
-          "editor.theme": "dark",
-        }
-      },
-      formatError: error => {
-        return error
-      }
+      })
     }),
 
   ],

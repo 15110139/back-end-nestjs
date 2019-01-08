@@ -30,10 +30,8 @@ export class UserService {
         return await this.userRepository.findOne({ userName: userName })
     }
     async register(user: User): Promise<User> {
-        const newUser = new User()
-        newUser.password = user.password
-        newUser.userName = user.userName
-        newUser.roles = user.roles
+        const newUser = new User(user.userName, user.password, user.roles)
+
         return await this.userRepository.save(newUser)
     }
     public userLoader = new DataLoader<string, User>(

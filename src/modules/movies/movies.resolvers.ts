@@ -16,7 +16,7 @@ export class MoviesResolvers {
     constructor(private readonly moviesService: MoviesService) { }
     private pubSub = new PubSub();
 
-    @UseGuards(RolesGuard)
+    // @UseGuards(RolesGuard)
     @Query()
     async getMovies() {
         try {

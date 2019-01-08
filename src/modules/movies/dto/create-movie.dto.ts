@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsDefined, MinLength, MaxLength } from 'class-validator';
 export class CreateMovieDTO {
-    @IsNumber()
+    @IsString()
     @IsDefined()
     readonly title: string;
 

@@ -22,7 +22,7 @@ export class AuthorityService {
         return await this.authorityRepository.save(newAuthority)
     }
     async addFunctionRoles(authorityId: string, functionRoles: string[]) {
-        return this.authorityRepository.findOneAndUpdate({ _id: ObjectId(authorityId) }, { $push: { functionRoles: { $each: functionRoles } } })
+        return this.authorityRepository.findOneAndUpdate({ _id: authorityId }, { $push: { functionRoles: { $each: functionRoles } } })
     }
 
     async getListFunctionRolesByRoles(roles: string) {

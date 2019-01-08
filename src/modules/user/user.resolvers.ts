@@ -14,7 +14,8 @@ export class UserResolvers {
     @Query('getInfoUser')
     async getInfoUser(@Args('userId') userId: string): Promise<User> {
         try {
-            return await this.userService.userLoader.load(userId)
+            // return await this.userService.userLoader.load(userId)
+            return await this.userService.getInfoUserById(userId)
         } catch (error) {
             throw new Error(error)
         }

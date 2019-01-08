@@ -25,15 +25,7 @@ export class RolesGuard implements CanActivate {
             if (!token) {
                 throw ('Token null')
             }
-            const verifyJWT = new Promise((resolve, reject) =>
-                jwt.verify(token, process.env.SECRET_KEY, (err: any, decoded: any) => {
-                    if (err) {
-                        if (err || !decoded) reject(err.message)
-                    }
-                    resolve(decoded)
-                })
-            )
-            const infoUser: any = await verifyJWT
+            const infoUser = await jwt.verify(token, process.env.SECRET_KEY)
             // console.log('userId', infoUser.userId)
             const user = await this.userService.getInfoUserById(infoUser.userId)
             if (!user) {

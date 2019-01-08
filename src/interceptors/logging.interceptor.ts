@@ -19,14 +19,13 @@ export class LoggingInterceptor implements NestInterceptor {
         // console.log(ctxGgl.getContext().headers['referer'])
         // console.log(ctxGgl.getArgs())
         // console.log(JSON.stringify(Object['values'](ctxGgl.getArgs())[0]))
-        const token = ctxGgl.getContext().headers['access-token'] ? ctxGgl.getContext().headers['access-token'] : null
-
-        if (env == 'developer') {
-            logger.writeLog('info').info(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${ctxGgl.getContext().reqId} ${token} ${JSON.stringify(ctxGgl.getArgs())}`);
-        }
         // logger.info(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${token} ${JSON.stringify(ctxGgl.getArgs())}`);
         // logger.debug(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${token} ${JSON.stringify(ctxGgl.getArgs())}`);
         // logger.data(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${token} ${JSON.stringify(ctxGgl.getArgs())}`);
+        const token = ctxGgl.getContext().headers['access-token'] ? ctxGgl.getContext().headers['access-token'] : null
+        if (env == 'developer') {
+            logger.writeLog('info').info(`${ctxGgl.getContext().method} ${ctxGgl.getContext().headers['referer']} ${ctxGgl.getContext().reqId} ${token} ${JSON.stringify(ctxGgl.getArgs())}`);
+        }
         const now = Date.now();
         return call$.pipe(
             tap(() => console.log(`After... ${Date.now() - now}ms`)),

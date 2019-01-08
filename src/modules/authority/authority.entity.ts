@@ -7,4 +7,5 @@ export class Authority {
     @Column() roles:string;
 
     @Column() functionRoles: string []
+
 }

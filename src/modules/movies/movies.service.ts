@@ -3,10 +3,6 @@ import { CreateMovieDTO } from './dto/create-movie.dto';
 import { getMongoRepository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './movies.entity'
-const ObjectId = require('mongodb').ObjectId;
-
-
-
 
 @Injectable()
 export class MoviesService {
@@ -20,16 +16,12 @@ export class MoviesService {
     }
 
     async getMovieById(movieId: string): Promise<Movie> {
-        return await this.movieRepository.findOne({ _id: ObjectId(movieId) })
+        return await this.movieRepository.findOne({ _id: movieId })
     }
 
-    async createMovie(createMovieDTO: CreateMovieDTO): Promise<Movie> {
-        const newMove = new Movie()
-
-        newMove.title = createMovieDTO.title
-        newMove.director = createMovieDTO.director
-        newMove.description = createMovieDTO.description
-        // console.log('newMove', newMove)
+    async createMovie(movie: CreateMovieDTO): Promise<Movie> {
+        const newMove = new Movie(movie.title, movie.director, movie.description)
+        console.log('newMove', newMove)
         return await this.movieRepository.save(newMove)
     }
 }
